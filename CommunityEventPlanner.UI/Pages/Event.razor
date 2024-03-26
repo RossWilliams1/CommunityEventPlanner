@@ -1,0 +1,56 @@
+﻿@page "/weather"
+@using CommunityEventPlanner.Contracts
+@inject HttpClient Http
+
+<PageTitle>Events</PageTitle>
+
+<h1>Weather</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (communityEvents == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Summary</th>
+                <th>Start Date</th>
+                <th>EndDate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in communityEvents)
+            {
+                <tr>
+                    <td>@forecast.Name</td>
+                    <td>@forecast.Summary</td>
+                    <td>@forecast.StartDate.ToLongDateString()</td>
+                    <td>@forecast.EndDate?.ToLongDateString() </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<CommunityEvent> communityEvents = new List<CommunityEvent>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var communityEventsResult = await Http.GetFromJsonAsync<CommunityEvent[]>("CommunityEvent");
+
+            communityEvents = communityEventsResult?.ToList() ?? new List<CommunityEvent>();
+        }
+        catch (Exception ex)
+        {
+            
+        }
+    }
+}

@@ -5,9 +5,15 @@ VisualStudioVersion = 17.8.34601.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityEventPlanner.API", "CommunityEventPlanner.API\CommunityEventPlanner.API.csproj", "{99041048-D255-4CBC-97FD-732C69D8557A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityEventPlanner.UI", "CommunityEventPlanner.UI\CommunityEventPlanner.UI.csproj", "{0AAA873F-AAF2-4028-98A0-82D51A561B93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityEventPlanner.UI", "CommunityEventPlanner.UI\CommunityEventPlanner.UI.csproj", "{0AAA873F-AAF2-4028-98A0-82D51A561B93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityEventPlanner.Contracts", "CommunityEventPlanner.Contracts\CommunityEventPlanner.Contracts.csproj", "{92C0D1F9-90FD-4A80-8A07-221ED1384D53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityEventPlanner.Contracts", "CommunityEventPlanner.Contracts\CommunityEventPlanner.Contracts.csproj", "{92C0D1F9-90FD-4A80-8A07-221ED1384D53}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityEventPlanner.Data", "CommunityEventPlanner.DAL\CommunityEventPlanner.Data.csproj", "{DB5C7517-E20E-479D-ADC3-45AF9350CF75}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityEventPlanner.Repo", "CommunityEventPlanner.Repo\CommunityEventPlanner.Repo.csproj", "{40A64B6A-893B-4DB6-B42C-EC5689A68367}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityEventPlanner.Service", "CommunityEventPlanner.Service\CommunityEventPlanner.Service.csproj", "{BAEA9101-CDBE-4C49-B42A-7B316C37612C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +33,18 @@ Global
 		{92C0D1F9-90FD-4A80-8A07-221ED1384D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92C0D1F9-90FD-4A80-8A07-221ED1384D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92C0D1F9-90FD-4A80-8A07-221ED1384D53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB5C7517-E20E-479D-ADC3-45AF9350CF75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB5C7517-E20E-479D-ADC3-45AF9350CF75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB5C7517-E20E-479D-ADC3-45AF9350CF75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB5C7517-E20E-479D-ADC3-45AF9350CF75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40A64B6A-893B-4DB6-B42C-EC5689A68367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40A64B6A-893B-4DB6-B42C-EC5689A68367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40A64B6A-893B-4DB6-B42C-EC5689A68367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40A64B6A-893B-4DB6-B42C-EC5689A68367}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAEA9101-CDBE-4C49-B42A-7B316C37612C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAEA9101-CDBE-4C49-B42A-7B316C37612C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAEA9101-CDBE-4C49-B42A-7B316C37612C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAEA9101-CDBE-4C49-B42A-7B316C37612C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

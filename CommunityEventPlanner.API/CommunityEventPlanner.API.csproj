@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommunityEventPlanner.Contracts\CommunityEventPlanner.Contracts.csproj" />
+    <ProjectReference Include="..\CommunityEventPlanner.Service\CommunityEventPlanner.Service.csproj" />
   </ItemGroup>
 
 </Project>
