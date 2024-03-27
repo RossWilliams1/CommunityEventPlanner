@@ -1,12 +1,12 @@
-﻿@page "/weather"
+﻿@page "/CommunityEvents"
 @using CommunityEventPlanner.Contracts
-@inject HttpClient Http
+@using CommunityEventPlanner.Contracts.DTO
+@using CommunityEventPlanner.UI.Services.Interface
+@inject ICommunityEventService CommunityEventService
 
-<PageTitle>Events</PageTitle>
+<PageTitle>Community Events</PageTitle>
 
-<h1>Weather</h1>
-
-<p>This component demonstrates fetching data from the server.</p>
+<h1>Community Events</h1>
 
 @if (communityEvents == null)
 {
@@ -42,15 +42,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            var communityEventsResult = await Http.GetFromJsonAsync<CommunityEvent[]>("CommunityEvent");
+        var communityEventsResult = await CommunityEventService.GetCommunityEventsAsync();
 
-            communityEvents = communityEventsResult?.ToList() ?? new List<CommunityEvent>();
-        }
-        catch (Exception ex)
-        {
-            
-        }
+        communityEvents = communityEventsResult?.ToList() ?? new List<CommunityEvent>();
     }
 }
