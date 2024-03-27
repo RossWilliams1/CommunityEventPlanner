@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,11 +25,16 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins(builder.Configuration["FrontendUrl"] ?? "https://localhost:7151");
+                          policy.WithOrigins(builder.Configuration["FrontendUrl"]
+                          ?? "https://localhost:7151");
                       });
 });
 
-builder.Services.AddDbContext<CommunityEventPlannerDbContext>();
+builder.Services.AddDbContext<CommunityEventPlannerDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ??
+        throw new InvalidOperationException("Missing Connection String"));
+});
 
 builder.Services.AddAuthentication(options =>
 {

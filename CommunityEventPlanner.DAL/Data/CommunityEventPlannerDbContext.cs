@@ -3,13 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityEventPlanner.Data.Data
 {
-    public class CommunityEventPlannerDbContext : DbContext
+    public class CommunityEventPlannerDbContext(DbContextOptions options) : DbContext(options)
     {
         public required DbSet<CommunityEvent> CommunityEvents { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=localhost;Database=CommunityEventPlanner;Trusted_Connection=True;TrustServerCertificate=true");
-        }
     }
 }
