@@ -1,21 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
-using CommunityEventPlanner.Contracts;
-using CommunityEventPlanner.Contracts.DTO;
+using CommunityEventPlanner.Shared.Service.Interface;
+using CommunityEventPlanner.Shared.Contract;
 using Azure;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
-using LoginRequest = CommunityEventPlanner.Contracts.DTO.LoginRequest;
-namespace IdentityManagerServerApi.Controllers
+using LoginRequest = CommunityEventPlanner.Shared.Contract.LoginRequest;
+using Microsoft.AspNetCore.Cors;
+namespace CommunityEventPlanner.Auth.Service.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserManagementController(IUserManager userAccount) : ControllerBase
+    public class UserManagementController(IUserManagerService userAccount) : ControllerBase
     {
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterUserRequest registerUserRequest)
         {
             var response = await userAccount.RegisterUser(registerUserRequest);
-            //
             return Ok(response);
         }
 
@@ -25,15 +25,5 @@ namespace IdentityManagerServerApi.Controllers
             var response = await userAccount.LoginUser(loginRequest);
             return Ok(response);
         }
-
-        [Authorize]
-        [HttpPost("loginAuth")]
-        public async Task<IActionResult> LoginAuth(LoginRequest loginRequest)
-        {
-            var i = this.User.Claims.First(i => i.Type.Contains("nameidentifier")).Value;
-            var response = await userAccount.LoginUser(loginRequest);
-            return Ok(response);
-        }
-
     }
 }

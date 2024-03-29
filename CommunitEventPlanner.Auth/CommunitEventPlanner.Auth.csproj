@@ -22,8 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CommunityEventPlanner.Contracts\CommunityEventPlanner.Contracts.csproj" />
-    <ProjectReference Include="..\CommunityEventPlanner.Shared\CommunityEventPlanner.Shared.csproj" />
+    <ProjectReference Include="..\CommunityEventPlanner.Contracts\CommunityEventPlanner.Shared.csproj" />
   </ItemGroup>
 
 </Project>

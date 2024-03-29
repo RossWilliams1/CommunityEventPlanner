@@ -1,4 +1,11 @@
-﻿@inherits LayoutComponentBase
+﻿﻿@using CommunityEventPlanner.UI.Services
+@using CommunityEventPlanner.UI.Services.Implementation
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavManager
+
+@inherits LayoutComponentBase
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -6,7 +13,21 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+                <Authorized>
+                    @context.User.Identity.Name &nbsp;
+                    <button class="btn btn-danger" @onclick="Logout"> Logout</button>
+                </Authorized>
+                <NotAuthorized>
+                    Guest &nbsp;
+                    <NavLink class="nav-link" href="/login" Match="NavLinkMatch.All">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Login
+                    </NavLink>
+                    <NavLink class="nav-link" href="/register" Match="NavLinkMatch.All">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Register
+                    </NavLink>
+                </NotAuthorized>
+            </Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
         </div>
 
         <article class="content px-4">
@@ -14,3 +35,13 @@
         </article>
     </main>
 </div>
+@code
+{
+    private async Task Logout()
+    {
+        var authenticationStateProvider = (ComunityEventAuthenticationStateProvider)AuthenticationStateProvider;
+        await authenticationStateProvider.UpdateAuthenticationState(null);
+        NavManager.NavigateTo("/login");
+    }
+}
+

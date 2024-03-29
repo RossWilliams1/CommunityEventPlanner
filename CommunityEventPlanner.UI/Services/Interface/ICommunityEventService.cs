@@ -1,5 +1,5 @@
-﻿using CommunityEventPlanner.Contracts;
-using CommunityEventPlanner.Contracts.DTO;
+﻿using CommunityEventPlanner.Shared;
+using CommunityEventPlanner.Shared.Contract;
 
 namespace CommunityEventPlanner.UI.Services.Interface
 {

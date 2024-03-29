@@ -1,4 +1,4 @@
-﻿namespace CommunityEventPlanner.Contracts.DTO
+﻿namespace CommunityEventPlanner.Shared.Contract
 {
     public class CommunityEvent
     {

@@ -1,6 +1,6 @@
-using CommunityEventPlanner.Contracts;
-using IdentityManagerServerApi.Data;
-using IdentityManagerServerApi.Repositories;
+using CommunityEventPlanner.Shared.Service.Interface;
+using CommunityEventPlanner.Auth.Service.Data;
+using CommunityEventPlanner.Auth.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,28 +13,20 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-
-//Starting
 builder.Services.AddDbContext<AuthDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ??
         throw new InvalidOperationException("Missing Connection String"));
 });
 
-//Add Identity & JWT authentication
-//Identity
 builder.Services.AddIdentity<AuthUser, IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>()
     .AddSignInManager()
     .AddRoles<IdentityRole>();
 
-// JWT 
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -53,7 +45,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-//Add authentication to Swagger UI
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -65,22 +56,20 @@ builder.Services.AddSwaggerGen(options =>
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
-builder.Services.AddScoped<IUserManager, UserManagementService>();
-//Ending...
+builder.Services.AddScoped<IUserManagerService, UserManagerService>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials()
+    .SetIsOriginAllowed(origin => true));
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseCors(policy =>
-    {
-        policy.WithOrigins("http://localhost:7254", "https://localhost:7254")
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .WithHeaders(HeaderNames.ContentType);
-    });
 }
 
 app.UseHttpsRedirection();

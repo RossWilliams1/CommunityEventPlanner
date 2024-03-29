@@ -1,6 +1,6 @@
-﻿namespace CommunityEventPlanner.Contracts.DTO
+﻿namespace CommunityEventPlanner.Shared.Contract
 {
-    public class ServiceResponses
+    public class ServiceResponse
     {
         public record class BaseResponse(bool Success, string Message);
         public record class LoginResponse(bool Success, string Token, string Message);

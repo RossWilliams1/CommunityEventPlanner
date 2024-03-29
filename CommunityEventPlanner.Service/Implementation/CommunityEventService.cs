@@ -2,15 +2,10 @@
 using CommunityEventPlanner.Data.Models;
 using CommunityEventPlanner.Service.Interface;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CommunityEventPlanner.Service.Implementation
 {
-    public class EventService(CommunityEventPlannerDbContext communityEventPlannerDbContext) : ICommunityEventService
+    public class CommunityEventService(CommunityEventPlannerDbContext communityEventPlannerDbContext) : ICommunityEventService
     {
         private readonly CommunityEventPlannerDbContext _communityEventPlannerDbContext = communityEventPlannerDbContext;
 

@@ -1,21 +1,24 @@
-﻿using CommunityEventPlanner.Contracts.DTO;
-using CommunityEventPlanner.Contracts;
-using IdentityManagerServerApi.Data;
+﻿using CommunityEventPlanner.Shared.Contract;
+using CommunityEventPlanner.Auth.Service.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using static CommunityEventPlanner.Contracts.DTO.ServiceResponses;
+using CommunityEventPlanner.Shared.Service.Interface;
+using static CommunityEventPlanner.Shared.Contract.ServiceResponse;
 
-namespace IdentityManagerServerApi.Repositories
+namespace CommunityEventPlanner.Auth.Service
 {
-    public class UserManagementService(UserManager<AuthUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration config) : IUserManager
+    public class UserManagerService(UserManager<AuthUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration config) : IUserManagerService
     {
         public async Task<BaseResponse> RegisterUser(RegisterUserRequest registerUserRequest)
         {
             if (registerUserRequest == null) 
                 return new BaseResponse(false, "Model is empty");
+
+            if(registerUserRequest.Password != registerUserRequest.ConfirmPassword)
+                return new BaseResponse(false, "Confirm Password does not match");
 
             var newUser = new AuthUser()
             {
@@ -32,7 +35,7 @@ namespace IdentityManagerServerApi.Repositories
             var newUserResult = await userManager.CreateAsync(newUser!, registerUserRequest.Password);
 
             if (!newUserResult.Succeeded)
-                return new BaseResponse(false, newUserResult.Errors.Select(x => x.Description).First());
+                return new BaseResponse(false, newUserResult?.Errors?.Select(x => x.Description)?.FirstOrDefault() ?? "Failed to Register");
 
             var checkUser = await roleManager.FindByNameAsync("User");
 
@@ -46,10 +49,10 @@ namespace IdentityManagerServerApi.Repositories
         public async Task<LoginResponse> LoginUser(LoginRequest loginRequest)
         {
             if (loginRequest == null)
-                return new LoginResponse(false, null!, "Login container is empty");
+                return new LoginResponse(false, null!, "Login request is required");
 
             var getUser = await userManager.FindByEmailAsync(loginRequest.Email);
-            if (getUser is null)
+            if (getUser == null)
                 return new LoginResponse(false, null!, "User not found");
 
             bool checkUserPasswords = await userManager.CheckPasswordAsync(getUser, loginRequest.Password);
@@ -59,7 +62,7 @@ namespace IdentityManagerServerApi.Repositories
             var getUserRole = await userManager.GetRolesAsync(getUser);
             var userSession = new UserSession(getUser.Id, getUser.Name, getUser.Email, getUserRole.First());
             string token = GenerateToken(userSession);
-            return new LoginResponse(true, token!, "Login completed");
+            return new LoginResponse(true, token!, "Login Successfull");
         }
 
         private string GenerateToken(UserSession user)

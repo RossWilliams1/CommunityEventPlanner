@@ -1,12 +1,12 @@
-﻿using CommunityEventPlanner.Contracts.DTO;
+﻿using CommunityEventPlanner.Shared.Contract;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace CommunityEventPlanner.Contracts
+namespace CommunityEventPlanner.Shared.Service
 {
-    public static class TokenClaimManagement
+    public static class TokenClaimService
     {
         public static ClaimsPrincipal SetClaimPrincipal(UserSession model)
         {

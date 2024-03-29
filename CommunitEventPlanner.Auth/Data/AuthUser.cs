@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace IdentityManagerServerApi.Data
+namespace CommunityEventPlanner.Auth.Service.Data
 {
     public class AuthUser : IdentityUser
     {

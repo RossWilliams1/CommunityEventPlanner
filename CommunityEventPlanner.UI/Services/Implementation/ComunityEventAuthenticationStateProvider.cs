@@ -1,25 +1,26 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
-using CommunityEventPlanner.Contracts;
+using CommunityEventPlanner.Shared;
 using System.Security.Claims;
+using CommunityEventPlanner.Shared.Service;
 namespace CommunityEventPlanner.UI.Services.Implementation
 {
     public class ComunityEventAuthenticationStateProvider(ILocalStorageService localStorageService) : AuthenticationStateProvider
     {
-        private readonly ClaimsPrincipal anonymous = new(new ClaimsIdentity());
+        private readonly ClaimsPrincipal anonymousUser = new(new ClaimsIdentity());
 
-        public async Task UpdateAuthTokenState(string? token)
+        public async Task UpdateAuthenticationState(string? token)
         {
             ClaimsPrincipal claimsPrincipal = new();
             if (!string.IsNullOrWhiteSpace(token))
             {
-                var userSession = TokenClaimManagement.GetClaims(token);
-                claimsPrincipal = TokenClaimManagement.SetClaimPrincipal(userSession);
+                var userSession = TokenClaimService.GetClaims(token);
+                claimsPrincipal = TokenClaimService.SetClaimPrincipal(userSession);
                 await localStorageService.SetItemAsStringAsync("token", token);
             }
             else
             {
-                claimsPrincipal = anonymous;
+                claimsPrincipal = anonymousUser;
                 await localStorageService.RemoveItemAsync("token");
             }
 
@@ -33,16 +34,16 @@ namespace CommunityEventPlanner.UI.Services.Implementation
                 string stringToken = await localStorageService.GetItemAsStringAsync("token");
 
                 if (string.IsNullOrWhiteSpace(stringToken))
-                    return await Task.FromResult(new AuthenticationState(anonymous));
+                    return await Task.FromResult(new AuthenticationState(anonymousUser));
 
-                var claims = TokenClaimManagement.GetClaims(stringToken);
+                var claims = TokenClaimService.GetClaims(stringToken);
 
-                var claimsPrincipal = TokenClaimManagement.SetClaimPrincipal(claims);
+                var claimsPrincipal = TokenClaimService.SetClaimPrincipal(claims);
                 return await Task.FromResult(new AuthenticationState(claimsPrincipal));
             }
             catch
             {
-                return await Task.FromResult(new AuthenticationState(anonymous));
+                return await Task.FromResult(new AuthenticationState(anonymousUser));
             }
         }
     }

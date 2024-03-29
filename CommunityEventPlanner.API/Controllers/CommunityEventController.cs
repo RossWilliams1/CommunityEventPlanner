@@ -7,18 +7,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace CommunityEventPlanner.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CommunityEventController(ILogger<CommunityEventController> logger, ICommunityEventService communityEventService) : ControllerBase
     {
         private readonly ILogger<CommunityEventController> _logger = logger;
         private readonly ICommunityEventService _CommunityEventService = communityEventService;
 
         [HttpGet(Name = "GetEvents")]
-        [EnableCors("_myAllowSpecificOrigins")]
-        [Authorize]
         public async Task<IEnumerable<CommunityEvent>> GetAsync()
         {
-            var i = this.User.Claims.First(i => i.Type.Contains("nameidentifier")).Value;
+            //var i = this.User.Claims.First(i => i.Type.Contains("nameidentifier")).Value;
             return await _CommunityEventService.GetCommunityEventsAsync();
         }
     }

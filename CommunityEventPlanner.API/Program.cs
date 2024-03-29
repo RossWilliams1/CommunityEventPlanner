@@ -13,22 +13,9 @@ using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy.WithOrigins(builder.Configuration["FrontendUrl"]
-                          ?? "https://localhost:7151");
-                      });
-});
 
 builder.Services.AddDbContext<CommunityEventPlannerDbContext>(options =>
 {
@@ -54,7 +41,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-//Add authentication to Swagger UI
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -67,18 +53,21 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
-builder.Services.AddScoped<ICommunityEventService, EventService>();
+builder.Services.AddScoped<ICommunityEventService, CommunityEventService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials()
+    .SetIsOriginAllowed(origin => true));
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
 

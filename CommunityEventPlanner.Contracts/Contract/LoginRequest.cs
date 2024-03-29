@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CommunityEventPlanner.Contracts.DTO
+namespace CommunityEventPlanner.Shared.Contract
 {
     public class LoginRequest
     {
