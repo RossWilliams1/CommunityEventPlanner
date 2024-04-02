@@ -5,7 +5,7 @@ namespace CommunityEventPlanner.Data.Data
 {
     public class CommunityEventPlannerDbContext(DbContextOptions options) : DbContext(options)
     {
-        public required DbSet<CommunityEvent> CommunityEvents { get; set; }
-        public required DbSet<UserCommunityEvent> UserCommunityEvents { get; set; }
+        public DbSet<CommunityEvent> CommunityEvents { get; set; }
+        public DbSet<UserCommunityEvent> UserCommunityEvents { get; set; }
     }
 }

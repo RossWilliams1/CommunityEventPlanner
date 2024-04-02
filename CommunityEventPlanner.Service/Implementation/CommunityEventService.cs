@@ -50,7 +50,7 @@ namespace CommunityEventPlanner.Service.Implementation
         {
             var mappedEvent = _mapper.Map<CommunityEvent>(communityEvent);
             if (communityEvent.EndDate.HasValue && communityEvent.StartDate > communityEvent.EndDate.Value)
-                return new BaseResponse(false, "Start Date must be before End Date");
+                return new BaseResponse(false, "Start Date must be before End Date.");
 
             if (string.IsNullOrEmpty(mappedEvent.Name))
                 return new BaseResponse(false, "Name is required for an event.");

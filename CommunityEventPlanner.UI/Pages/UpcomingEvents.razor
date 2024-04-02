@@ -13,7 +13,7 @@
 
 @if (communityEvents == null)
 {
-    <p><em>Loading...</em></p>
+    <span>Loading...</span>
 }
 else
 {
@@ -47,7 +47,7 @@ else
                             }
                             else
                             {
-                                <td><button class="btn btn-primary" @onclick="(() => RegisterUser(communityEvent.Id))">Register</button></td>
+                                <td><button class="btn btn-primary" @onclick="(() => RegisterUserAsync(communityEvent.Id))">Register</button></td>
                             }
                         </Authorized>
                     </Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
@@ -79,7 +79,7 @@ else
         }
     }
 
-    async Task RegisterUser(int comunityEventId)
+    private async Task RegisterUserAsync(int comunityEventId)
     {
         var userRegistrationResult = await CommunityEventService.UserRegistrationAsync(comunityEventId);
 
