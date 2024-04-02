@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommunityEventPlanner.Data.Migrations
 {
     [DbContext(typeof(CommunityEventPlannerDbContext))]
-    [Migration("20240326123446_InitalCreation")]
-    partial class InitalCreation
+    [Migration("20240402014806_initalCreation")]
+    partial class initalCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,38 @@ namespace CommunityEventPlanner.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CommunityEvents");
+                });
+
+            modelBuilder.Entity("CommunityEventPlanner.Data.Models.UserCommunityEvent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CommunityEventId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommunityEventId");
+
+                    b.ToTable("UserCommunityEvents");
+                });
+
+            modelBuilder.Entity("CommunityEventPlanner.Data.Models.UserCommunityEvent", b =>
+                {
+                    b.HasOne("CommunityEventPlanner.Data.Models.CommunityEvent", "CommunityEvent")
+                        .WithMany()
+                        .HasForeignKey("CommunityEventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CommunityEvent");
                 });
 #pragma warning restore 612, 618
         }

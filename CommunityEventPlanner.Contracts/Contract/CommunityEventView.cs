@@ -1,6 +1,6 @@
 ﻿namespace CommunityEventPlanner.Shared.Contract
 {
-    public class CommunityEvent
+    public class CommunityEventView
     {
         public int Id { get; set; }
 

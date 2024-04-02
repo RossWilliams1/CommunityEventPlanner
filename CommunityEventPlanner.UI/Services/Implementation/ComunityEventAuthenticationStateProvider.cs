@@ -5,7 +5,7 @@ using System.Security.Claims;
 using CommunityEventPlanner.Shared.Service;
 namespace CommunityEventPlanner.UI.Services.Implementation
 {
-    public class ComunityEventAuthenticationStateProvider(ILocalStorageService localStorageService) : AuthenticationStateProvider
+    public class CommunityEventAuthenticationStateProvider(ILocalStorageService localStorageService) : AuthenticationStateProvider
     {
         private readonly ClaimsPrincipal anonymousUser = new(new ClaimsIdentity());
 

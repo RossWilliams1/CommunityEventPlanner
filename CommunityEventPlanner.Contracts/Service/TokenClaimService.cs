@@ -44,6 +44,7 @@ namespace CommunityEventPlanner.Shared.Service
                 UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip
             };
         }
+
         public static string SerializeObj<T>(T modelObject) => JsonSerializer.Serialize(modelObject, JsonOptions());
         public static T DeserializeJsonString<T>(string jsonString) => JsonSerializer.Deserialize<T>(jsonString, JsonOptions())!;
         public static IList<T> DeserializeJsonStringList<T>(string jsonString) => JsonSerializer.Deserialize<IList<T>>(jsonString, JsonOptions())!;

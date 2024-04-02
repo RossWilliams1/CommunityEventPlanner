@@ -5,66 +5,65 @@
 @using CommunityEventPlanner.Shared.Contract
 @using CommunityEventPlanner.UI.Services.Implementation
 @inject IUserManagerService UserManager
-@inject IJSRuntime js
 @inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager NavManager
 
 <PageTitle>Login</PageTitle>
 
+<h1>Login</h1>
 <div class="container">
     <div class="row">
         <div class="col-md-6">
             <EditForm Enhance Model="LoginRequest" OnValidSubmit="HandleLoginRequest">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
-                <div class="card-header">Login</div>
-                <div class="card-body">
-                    <div class="form-group mb-3">
-                         <input @bind="LoginRequest.Email"
-                               class="form-control"
-                               type="email"
-                               placeholder="Email Address">
-                        </input>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group mb-3">
-                            <input class="form-control"
-                                    @bind="LoginRequest.Password"
-                                   placeholder="Password"
-                                   aria-label="Password"
-                                   aria-describedby="Password">
-                        </div>
+                <div class="form-group mb-3">
+                        <input @bind="LoginRequest.Email"
+                            class="form-control"
+                            type="email"
+                            placeholder="Email Address">
+                    </input>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                         <input type="password" 
+                                class="form-control"
+                                @bind="LoginRequest.Password"
+                                placeholder="Password"
+                                aria-label="Password"
+                                aria-describedby="Password">
                     </div>
                 </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary float-end"
-                            type="submit">
-                        Login
-                    </button>
-                </div>
+                @if (!string.IsNullOrEmpty(ResultMessage))
+                {
+                    <span class="alert alert-danger">@ResultMessage</span>
+                }
+                <button class="btn btn-primary float-end"
+                        type="submit">
+                    Login
+                </button>
             </EditForm>
         </div>
     </div>
 </div>
 
- @code {
+@code {
     public LoginRequest LoginRequest { get; set; } = new();
-
+    public string ResultMessage { get; set; } = string.Empty;
     async Task HandleLoginRequest()
     {
         var (success, token, message) = await UserManager.LoginUser(LoginRequest);
+
         if (success)
         {
-            string customMessage = $"{message}{Environment.NewLine}{token}";
-            await js.InvokeVoidAsync("alert", customMessage);
             LoginRequest = new();
 
-            var customAuthStateProvider = (ComunityEventAuthenticationStateProvider)AuthStateProvider;
+            var customAuthStateProvider = (CommunityEventAuthenticationStateProvider)AuthStateProvider;
             await customAuthStateProvider.UpdateAuthenticationState(token);
             NavManager.NavigateTo("/", forceLoad: true);
         }
 
-        await js.InvokeVoidAsync("alert", message);
+        ResultMessage = message;
         return;
     }
 }

@@ -1,0 +1,91 @@
+﻿@page "/"
+@using CommunityEventPlanner.Shared
+@using CommunityEventPlanner.Shared.Contract
+@using CommunityEventPlanner.UI.Services.Implementation
+@using CommunityEventPlanner.UI.Services.Interface
+@using Microsoft.AspNetCore.Components.Authorization
+@inject ICommunityEventService CommunityEventService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>Upcoming Events</PageTitle>
+
+<h1>Upcoming Events</h1>
+
+@if (communityEvents == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Summary</th>
+                <th>Start Date</th>
+                <th>EndDate</th>
+                <Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+                    <Authorized>
+                        <th>Register</th>
+                    </Authorized>
+                </Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var communityEvent in communityEvents)
+            {
+                <tr>
+                    <td>@communityEvent.Name</td>
+                    <td>@communityEvent.Summary</td>
+                    <td>@communityEvent.StartDate.ToString("dd/MM/yyyy hh:mm")</td>
+                    <td>@communityEvent.EndDate?.ToString("dd/MM/yyyy hh:mm")</td>
+                    <Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+                        <Authorized>
+                            @if (userComunityEventIds.Contains(communityEvent.Id))
+                            {
+                                <td>Registered!</td>
+                            }
+                            else
+                            {
+                                <td><button class="btn btn-primary" @onclick="(() => RegisterUser(communityEvent.Id))">Register</button></td>
+                            }
+                        </Authorized>
+                    </Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<CommunityEventView> communityEvents = new();
+
+    private List<int> userComunityEventIds = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var communityEventsResult = await CommunityEventService.GetUpcomingAsync();
+
+        communityEvents = communityEventsResult?.ToList() ?? new ();
+
+        var authenticationStateProvider = (CommunityEventAuthenticationStateProvider)AuthenticationStateProvider;
+
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+
+        if (authState?.User?.Identity?.IsAuthenticated ?? false)
+        {
+            var userCommunityEventIdsResult = await CommunityEventService.GetIdsByUserAsync();
+            userComunityEventIds = userCommunityEventIdsResult?.ToList() ?? new();
+        }
+    }
+
+    async Task RegisterUser(int comunityEventId)
+    {
+        var userRegistrationResult = await CommunityEventService.UserRegistrationAsync(comunityEventId);
+
+        if (userRegistrationResult.Success)
+        {
+            userComunityEventIds.Add(comunityEventId);
+        }
+    }
+}

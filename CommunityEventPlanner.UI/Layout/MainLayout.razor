@@ -39,7 +39,8 @@
 {
     private async Task Logout()
     {
-        var authenticationStateProvider = (ComunityEventAuthenticationStateProvider)AuthenticationStateProvider;
+
+        var authenticationStateProvider = (CommunityEventAuthenticationStateProvider)AuthenticationStateProvider;
         await authenticationStateProvider.UpdateAuthenticationState(null);
         NavManager.NavigateTo("/login");
     }
