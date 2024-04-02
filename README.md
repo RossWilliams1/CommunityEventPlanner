@@ -173,7 +173,7 @@ Create Event
 
 
 **User Management**
-Base URL: https://your-api-url.com/api/usermanagement/
+Base URL: https://localhost/api/usermanagement/
 
 Register User
 
