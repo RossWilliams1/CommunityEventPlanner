@@ -38,7 +38,7 @@ Upcoming Events, shows a list of upconing events if logged in you can register t
 
 Create Event, allows users to create a event.
 
-**Architecture Considerations:**
+**Architecture Considerations**
 
 As I thought about Microservices, I started breaking down the project goals. So, I split my solution into three main parts: 
 the user interface, Auth Service, and Community Event Service. I didn't want to mix up community events and user info in one place because the system could expand beyond just events,
@@ -48,7 +48,7 @@ One thing I see needing improvement for future growth is the Community Events li
 it shows all records in one go. But if we scale up to millions of records,
 that's going to cause performance problems. To tackle this, I'd suggest adding paging to limit the number of records we pull at once.
 
-**Questions I had and Assumptions: **
+**Questions I had and Assumptions**
 
 •	What data we need on events and users? 
 
@@ -97,7 +97,121 @@ as I lacked prior experience setting up user login/registration and authenticati
 I viewed this as an opportunity for learning and growth. Hence, I chose to employ JWT (JSON Web Tokens) due to its streamlined approach,
 efficiency, and robust security features. JWT facilitates stateless authentication, reducing reliance on server-side session data storage.
 
-**References: **
+**API Documentation**
+
+**Community Events**
+
+Base URL: https://localhost/api/communityevent/
+
+Get Upcoming Events
+
+•	Description: Retrieves a list of upcoming community events.
+
+•	Method: GET
+
+•	Route: /getupcoming
+
+•	Authentication: Not required
+
+•	Response:
+
+•	200 OK on success, returns a list of upcoming events.
+
+Get Event IDs by User
+
+•	Description: Retrieves event IDs associated with the authenticated user.
+
+•	Method: GET
+
+•	Route: /getidsbyuser
+
+•	Authentication: Required (Bearer Token)
+
+•	Response:
+
+•	200 OK on success, returns a list of event IDs.
+
+•	500 Internal Server Error if the user GUID retrieval fails.
+
+User Registration for Event
+
+•	Description: Registers the authenticated user for a specific event.
+
+•	Method: POST
+
+•	Route: /userregistration
+
+•	Authentication: Required (Bearer Token)
+
+•	Request Body:
+
+•	CommunityEventId: ID of the event the user wants to register for.
+
+•	Response:
+
+•	200 OK on success, returns registration response.
+
+•	500 Internal Server Error if the user GUID retrieval fails.
+
+Create Event
+
+•	Description: Creates a new community event.
+
+•	Method: POST
+
+•	Route: /create
+
+•	Authentication: Not required
+
+•	Request Body:
+
+•	Provide event details in the request body.
+
+•	Response:
+
+•	200 OK on success, event creation successful.
+
+
+**User Management**
+Base URL: https://your-api-url.com/api/usermanagement/
+
+Register User
+
+•	Description: Registers a new user.
+
+•	Method: POST
+
+•	Route: /register
+
+•	Authentication: Not required
+
+•	Request Body:
+
+•	Provide user registration details in the request body.
+
+•	Response:
+
+•	200 OK on success, returns registration response.
+
+Login User
+
+•	Description: Authenticates an existing user.
+
+•	Method: POST
+
+•	Route: /login
+
+•	Authentication: Not required
+
+•	Request Body:
+
+•	Provide user login credentials in the request body.
+
+•	Response:
+
+•	200 OK on success, returns login response.
+
+**References**
 
 Build Secured .NET 8 APIs With Custom JWT Authentication & Authorization using Identity Manager! - https://www.youtube.com/watch?v=owk9faapaBs&t=2443s
 
