@@ -1,4 +1,4 @@
-Set Up: 
+**Set Up: **
 
 Clone branch.
 
@@ -38,7 +38,7 @@ Upcoming Events, shows a list of upconing events if logged in you can register t
 
 Create Event, allows users to create a event.
 
-Architecture Considerations:
+**Architecture Considerations:**
 
 As I thought about Microservices, I started breaking down the project goals. So, I split my solution into three main parts: 
 the user interface, Auth Service, and Community Event Service. I didn't want to mix up community events and user info in one place because the system could expand beyond just events,
@@ -48,7 +48,7 @@ One thing I see needing improvement for future growth is the Community Events li
 it shows all records in one go. But if we scale up to millions of records,
 that's going to cause performance problems. To tackle this, I'd suggest adding paging to limit the number of records we pull at once.
 
-Questions I had and Assumptions: 
+**Questions I had and Assumptions: **
 
 •	What data we need on events and users? 
 
@@ -97,7 +97,7 @@ as I lacked prior experience setting up user login/registration and authenticati
 I viewed this as an opportunity for learning and growth. Hence, I chose to employ JWT (JSON Web Tokens) due to its streamlined approach,
 efficiency, and robust security features. JWT facilitates stateless authentication, reducing reliance on server-side session data storage.
 
-References: 
+**References: **
 
 Build Secured .NET 8 APIs With Custom JWT Authentication & Authorization using Identity Manager! - https://www.youtube.com/watch?v=owk9faapaBs&t=2443s
 
