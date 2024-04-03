@@ -220,5 +220,7 @@ Introduction to Identity on ASP.NET Core - https://learn.microsoft.com/en-us/asp
 
 JWT - https://jwt.io/introduction
 
+ChatGPT - https://chat.openai.com/
+
 
 
