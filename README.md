@@ -90,12 +90,9 @@ o	Option 1- User can register with filling out a form with email, name ect. This
   
 o Option 2 - Create a user login and registration that links the user to the event.
   
-I opted for Option 2, which entails a straightforward registration process. 
-However, I found repeatedly inputting user information for each event to be cumbersome and challenging to track user sign-ups effectively.
-Implementing a centralized user record seemed more efficient for both reporting purposes and user experience. Additionally,
-as I lacked prior experience setting up user login/registration and authentication systems from scratch, 
-I viewed this as an opportunity for learning and growth. Hence, I chose to employ JWT (JSON Web Tokens) due to its streamlined approach,
-efficiency, and robust security features. JWT facilitates stateless authentication, reducing reliance on server-side session data storage.
+I picked Option 2 because it seemed simpler to sign up then you dont need to be entering info every time for each event. So, to make it easier I allowed users to sign up then they can use the same details for each registration.
+
+I'd never set up user login. I saw it as a chance to learn something new. That's when I learned about JWT (JSON Web Tokens). it seemed like a way to make the application secure and it was not bad implementing it.
 
 **API Documentation**
 
